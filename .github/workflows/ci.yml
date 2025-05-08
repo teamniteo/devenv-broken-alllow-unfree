@@ -39,7 +39,7 @@ jobs:
           mkdir -p ~/.config/nixpkgs/
           echo "{ allowUnfree = true; }" > ~/.config/nixpkgs/config.nix
       - name: Install devenv.sh
-        run: nix profile install --accept-flake-config github:cachix/devenv/v1.6
+        run: nix profile install --accept-flake-config github:cachix/devenv/a7f2ea2
 
       - run: devenv test -d
         env:
