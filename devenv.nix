@@ -1,11 +1,15 @@
-{ pkgs, lib, config, inputs, ... }:
-
 {
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}: {
   # https://devenv.sh/basics/
   env.GREET = "devenv";
 
   # https://devenv.sh/packages/
-  packages = [ pkgs.git ];
+  packages = [pkgs.git];
 
   apple.sdk = null; # use env apple sdk, fixes broken mongodb compile step
 
@@ -14,15 +18,6 @@
     "--noauth"
     "--quiet"
   ];
-
-  # https://devenv.sh/languages/
-  # languages.rust.enable = true;
-
-  # https://devenv.sh/processes/
-  # processes.cargo-watch.exec = "cargo-watch";
-
-  # https://devenv.sh/services/
-  # services.postgres.enable = true;
 
   # https://devenv.sh/scripts/
   scripts.hello.exec = ''
@@ -69,5 +64,4 @@
   pre-commit.hooks = {
     alejandra.enable = true;
   };
-
 }
