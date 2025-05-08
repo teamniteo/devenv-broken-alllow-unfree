@@ -1,0 +1,49 @@
+# Run all tests, linters, code analysis and other QA tasks on
+# every push to master and PRs.
+#
+# To SSH into the runner to debug a failure, add the following step before
+# the failing step
+#       - uses: lhotari/action-upterm@v1
+#         with:
+#           limit-access-to-actor: true
+
+name: CI
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+  actions: read
+
+# Prevent multiple jobs running after fast subsequent pushes
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+
+  test:
+    name: Tests
+
+    runs-on: namespace-profile-wordform
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: DeterminateSystems/nix-installer-action@main
+        with:
+          modify-profile: true
+
+      - name: Install devenv.sh
+        run: nix profile install --accept-flake-config github:cachix/devenv/v1.6
+
+      - run: devenv test -d
+        env:
+          NIXPKGS_ALLOW_UNFREE: 1
