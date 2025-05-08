@@ -16,12 +16,6 @@ on:
     branches:
       - main
 
-permissions:
-  id-token: write
-  contents: read
-  pull-requests: write
-  actions: read
-
 # Prevent multiple jobs running after fast subsequent pushes
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -29,10 +23,10 @@ concurrency:
 
 jobs:
 
-  test:
-    name: Tests
+  test-dts:
+    name: Tests DeterminateSystems
 
-    runs-on: namespace-profile-wordform
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -47,3 +41,21 @@ jobs:
       - run: devenv test -d
         env:
           NIXPKGS_ALLOW_UNFREE: 1
+
+  test-cachix:
+    name: Tests Cachix
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v31
+
+      - name: Install devenv.sh
+        run: nix profile install --accept-flake-config github:cachix/devenv/v1.6
+
+      - run: devenv test -d
+        env:
+          NIXPKGS_ALLOW_UNFREE: 1
+        
