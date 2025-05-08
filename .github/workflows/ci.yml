@@ -24,7 +24,7 @@ concurrency:
 jobs:
 
   test-dts:
-    name: Tests DeterminateSystems
+    name: Tests DeterminateSystems 1.6
 
     runs-on: ubuntu-latest
 
@@ -46,7 +46,7 @@ jobs:
           NIXPKGS_ALLOW_UNFREE: 1
 
   test-cachix:
-    name: Tests Cachix
+    name: Tests Cachix 1.6
 
     runs-on: ubuntu-latest
 
@@ -68,7 +68,7 @@ jobs:
           NIXPKGS_ALLOW_UNFREE: 1
         
   test-dts-14:
-    name: Tests DeterminateSystems
+    name: Tests DeterminateSystems 1.4
 
     runs-on: ubuntu-latest
 
@@ -83,14 +83,14 @@ jobs:
           mkdir -p ~/.config/nixpkgs/
           echo "{ allowUnfree = true; }" > ~/.config/nixpkgs/config.nix
       - name: Install devenv.sh
-        run: nix profile install --accept-flake-config github:cachix/devenv/v1.4.0
+        run: nix profile install --accept-flake-config github:cachix/devenv/v1.4
 
       - run: devenv test -d
         env:
           NIXPKGS_ALLOW_UNFREE: 1
 
   test-cachix-14:
-    name: Tests Cachix
+    name: Tests Cachix 1.4
 
     runs-on: ubuntu-latest
 
@@ -105,7 +105,7 @@ jobs:
           echo "{ allowUnfree = true; }" > ~/.config/nixpkgs/config.nix
           
       - name: Install devenv.sh
-        run: nix profile install --accept-flake-config github:cachix/devenv/v1.4.0
+        run: nix profile install --accept-flake-config github:cachix/devenv/v1.4
 
       - run: devenv test -d
         env:
